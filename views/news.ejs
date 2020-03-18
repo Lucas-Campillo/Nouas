@@ -18,8 +18,10 @@
   <div class="text-center row">
     <% for(news of News){ %>
       <div style="height: 22vw;" class="border rounded-circle mt-2 col-6">
-        <div class="mt-1"><button class="rounded-circle"><a href="/news/delete/<%= news.id %>">Supprimer</a></button>
-        <button class="rounded-circle" onclick="UpdateNews('<%= news.id %>')">Modifier</button></div>
+        <% if (Admin === 1) {%>
+          <div class="mt-1"><button class="rounded-circle"><a href="/news/delete/<%= news.id %>">Supprimer</a></button>
+          <button class="rounded-circle" onclick="UpdateNews('<%= news.id %>')">Modifier</button></div>
+        <% } %>
         <div id="News<%= news.id %>">
             <h1 class="mt-4"> Titre : <%= news.title %></h1>
             ----------------------------------

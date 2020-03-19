@@ -7,12 +7,17 @@
   font-family: 'pacifico';
 }
 /* Add a black background color to the top navigation */
-.topnav {
-    background-color: #333;
+/* .topnav {
+
     overflow: hidden;
-  }
+  } */
   
   /* Style the links inside the navigation bar */
+  .navbar, .dropdown-menu
+  {
+    padding: 0%!important;
+    margin: 0%!important;
+  }
   .topnav a {
     float: left;
     color: #f2f2f2;
@@ -36,4 +41,34 @@
   #NewNews
   {
     display: none;
+  }
+  /* Dropdown button hover */
+  .dropdown>.dropdown-menu {
+    top: 200%;
+    transition: 0.3s all ease-in-out;
+  }
+  .dropdown:hover>.dropdown-menu {
+    display: block;
+    top: 100%;
+  }
+  
+  .dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+      pointer-events: none;
+  }
+  .dropdown
+  {
+    height: 100%;
+  }
+
+  #dropdownMenuButton
+  {
+    color: white;
+    border: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .dropdown-menu
+  {
+    background-color: #343a40!important;
   }

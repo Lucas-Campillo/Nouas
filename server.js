@@ -2,9 +2,10 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let url = require('url')
+let session = require('express-session')
 let news = require('./models/news.js')
 let users = require('./models/users.js')
-let session = require('express-session')
+let categories = require('./models/categories.js')
 // EJS
 app.set('view engine','ejs')
 
@@ -22,7 +23,10 @@ app.use(session({
 }))
 // Routes
     app.get('/', (request, response) =>{
-        response.render('index', { Name : request.session.username , Admin : request.session.admin} )
+        categories.read(function(categories){
+            console.log(categories)
+            response.render('index', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
+        })
     }) 
     
     app.post('/', (request, response) =>{
@@ -36,6 +40,16 @@ app.use(session({
         news.all(function(news){
         response.render('news', {News : news, Admin : request.session.admin})
     })
+    })
+    app.get('/outils_pedagogique/:Category', (request,response) =>
+    {
+        categories.read(function(categoriess){
+            news.readArticles(request.params.Category,function(articles)
+            {
+                console.log(articles)
+                response.render('news', { Name : request.session.username , Admin : request.session.admin , Categories : categoriess, News:articles} )
+            })
+        })
     })
     
     app.post('/news/create' , (request, response) =>
@@ -55,7 +69,10 @@ app.use(session({
     })
 
     app.get('/login', (request, response) =>{
-        response.render('login')
+        categories.read(function(categories){
+            console.log(categories)
+            response.render('login', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
+        })
     })
     app.post('/login' , (request,response)=>
     {
@@ -67,7 +84,10 @@ app.use(session({
     })
 
     app.get('/signin', (request, response) =>{
-        response.render('signin')
+        categories.read(function(categories){
+            console.log(categories)
+            response.render('signin', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
+        })
     })
     app.post('/signin' , (request,response)=>
     {
@@ -81,9 +101,17 @@ app.use(session({
     app.get('/logout' , (request,response)=>
     {
         request.session.destroy();
-       response.redirect('/login')
+        response.redirect('/login')
     })
-
+    app.post('/categories/create', (request,response)=>
+    {
+        const regex = (/ /gi);
+        const regex2 = (/é|è|ê|ê|Ë|Ê|É|È/gi);
+        const regex3 = (/à|â|ä|À|Â|Ä/gi);
+        let formate = request.body.category.toLowerCase().replace(regex,'_').replace(regex2,'e').replace(regex3,'a')
+        categories.create([request.body.category.toUpperCase(),formate])
+      response.redirect('/')
+    })
 
 
 app.listen(8080)

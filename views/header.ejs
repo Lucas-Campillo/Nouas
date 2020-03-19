@@ -4,30 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Nodejs</title>
-    <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="http://localhost:8080/bootstrap-4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="http://localhost:8080/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
 <body>
     <nav class="navbar navbar-light bg-dark pacifico">
         <div class="topnav col-12">
-            <ul class="nav ">
-                <li class="active col-3 text-center" ><a class="col-12" href="/">Accueil</a></li>
-                <li style="background-color: #343a40!important"class="col-3 "><a class="col-12" href="/news">News</a></li>
-                <li class="active col-3"><a class="col-12" href="#contact">Contact</a></li>
+            <ul class="nav row">
+                <li class="active col-3 text-center p-0" ><a class="col-12" href="/">Accueil</a></li>
+                <li class="col-3 text-center p-0" >
+                    <div class="dropdown">
+                        <div class="dropdown">
+                          <button  style="background-color: #343a40!important" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Outils Pédagogiques</button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <% for(categories of Categories){ %>
+                                <a class="col-6" href="/outils_pedagogique/<%= categories.link_name %>"><small><%= categories.name %></small></a>
+                                  <% } %>
+                                  <% if (typeof Admin !== 'undefined') {%>
+                                    <button type="button" class="btn btn-primary col-12" data-toggle="modal" data-target="#exampleModal">NOUVELLES CATÉGORIES</button>
+                                <% }%>
+                          </div>
+                        </div>
+                    </div>
+                    
+                </li>
+                <!-- <li style="background-color: #343a40!important"class="col-3 p-0"><a class="col-12" href="/news">News</a></li> -->
+                <li class="active col-3 p-0"><a class="col-12 " href="#contact">Contact</a></li>
                 <% if (typeof Admin !== 'undefined') {%>
-                    <li style="background-color: #343a40!important"class="col-3 text-center">
+                    <li style="background-color: #343a40!important"class="col-3 text-center p-0">
                         <a class="col-12" href="/logout">Déconnexion</a>
                     </li>
                 <% }else{ %>
-                    <li style="background-color: #343a40!important"class="col-3 ">
+                    <li style="background-color: #343a40!important"class="col-3 p-0">
                         <a class="col-6" href="/logIn">Connection</a>
                         <a class="col-6" href="/signIn">Inscription</a>
                     </li>
                 <% } %> 
             </ul>
         </div>
+       
         
     </nav>
+    
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ajout d'une catégorie</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/categories/create" method="POST">
+                <div class="form-group">
+                    <label for="text">Nouvelle catégorie:</label>
+                    <input type="text" class="form-control" placeholder="Enter category" id="category" name="category">
+                </div>
+                <div class="text-center mt-1">
+        <input class="btn btn-primary" type="submit" value="Enregistrer">
+      </div>
+            </form>
+          </div>
+        </div>
+      </div>

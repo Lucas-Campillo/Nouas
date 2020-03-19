@@ -34,6 +34,14 @@ class News{
           })
 
     }
+    static readArticles(category,cb)
+    {
+        let sql = "SELECT * FROM articles WHERE category = ?"
+        DB.query(sql,[category], function (err,result){
+            if (err) throw err
+            cb(result.map((row) => new News(row)))
+        })
+    }
     static create(data)
     {
         let sql = "INSERT INTO nouas (title,content,created_at) VALUES (?)"

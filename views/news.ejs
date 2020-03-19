@@ -1,7 +1,7 @@
 <%- include('header') -%>
 <div class="text-center mt-1"><button class="btn btn-success "onclick="HideShowForm()">Nouvel article</button>
 </div>
-<form id="NewNews" class="form-group" action="/news/create" method="post">
+<form id="NewNews" class="form-group" action="/outils_pedagogique/<%= Category %> " method="post">
     <div class="row mt-4 text-center">
       <label class="col-12 pt-1 pr-0" for="POST-name">Titre :</label>
       <input class="form-control offset-3 col-6" id="POST-name" type="text" name="name">

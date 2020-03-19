@@ -46,12 +46,17 @@ app.use(session({
         categories.read(function(categoriess){
             news.readArticles(request.params.Category,function(articles)
             {
-                console.log(articles)
-                response.render('news', { Name : request.session.username , Admin : request.session.admin , Categories : categoriess, News:articles} )
+                response.render('news', {Category : request.params.Category, Name : request.session.username , Admin : request.session.admin , Categories : categoriess, News:articles} )
             })
         })
     })
     
+    app.post('/outils_pedagogique/:Category', (request,response) =>
+    {
+        news.create([request.body.name,request.body.content,new Date(),request.params.Category])
+        response.redirect('/outils_pedagogique/'+request.params.Category)
+    })
+
     app.post('/news/create' , (request, response) =>
     {
         news.create([request.body.name,request.body.content,new Date()])

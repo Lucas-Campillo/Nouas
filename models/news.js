@@ -26,7 +26,7 @@ class News{
 
     static all(cb)
     {
-        let sql= "SELECT * FROM nouas"
+        let sql= "SELECT * FROM articles"
         DB.query(sql,function (err, result) {
             if (err) throw err
             console.log("read done")
@@ -44,7 +44,7 @@ class News{
     }
     static create(data)
     {
-        let sql = "INSERT INTO nouas (title,content,created_at) VALUES (?)"
+        let sql = "INSERT INTO articles (title,content,created_at,category) VALUES (?)"
         DB.query(sql,[data], function (err, result) {
             if (err) throw err
             console.log("Insert done")

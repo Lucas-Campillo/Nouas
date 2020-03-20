@@ -19,7 +19,16 @@ class Categories{
         return this.row.link_name
     }
 
-    static read(cb)
+    static read(category, cb)
+    {
+        let sql = "SELECT name FROM categories WHERE link_name=?"
+        DB.query(sql,[category], function (err,result){
+            if (err) throw err
+            cb(result)
+        })
+    }
+
+    static readAll(cb)
     {
         let sql = "SELECT * FROM categories"
         DB.query(sql, function (err,result){
@@ -37,7 +46,15 @@ class Categories{
             
           })
     }
-
+    static delete(data)
+    {
+        let sql ="DELETE FROM categories WHERE link_name = ?"
+        DB.query(sql,[data], function (err, result) {
+            if (err) throw err
+            console.log("Delete category done")
+            
+          })
+    }
 }
 
 module.exports = Categories

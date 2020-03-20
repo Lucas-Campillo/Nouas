@@ -1,7 +1,12 @@
 <%- include('header') -%>
+<div class="text-center offset-2 col-8">
+  <h2><%= ActualCategory %> </h2>
+</div>
+<% if (Admin === 1) {%>
 <div class="text-center mt-1"><button class="btn btn-success "onclick="HideShowForm()">Nouvel article</button>
 </div>
-<form id="NewNews" class="form-group" action="/outils_pedagogique/<%= Category %> " method="post">
+  
+  <form id="NewNews" class="form-group" action="/outils_pedagogiques/create/<%= Category %> " method="post">
     <div class="row mt-4 text-center">
       <label class="col-12 pt-1 pr-0" for="POST-name">Titre :</label>
       <input class="form-control offset-3 col-6" id="POST-name" type="text" name="name">
@@ -13,13 +18,14 @@
     <div class="text-center mt-1">
       <input class="btn btn-primary" type="submit" value="Enregistrer">
     </div>
-</form>
+  </form>
+  <% } %>
 <div class="container">
   <div class="text-center row">
     <% for(news of News){ %>
       <div style="height: 22vw;" class="border rounded-circle mt-2 col-6">
         <% if (Admin === 1) {%>
-          <div class="mt-1"><button class="rounded-circle"><a href="/news/delete/<%= news.id %>">Supprimer</a></button>
+          <div class="mt-1"><button class="rounded-circle"><a href="/outils_pedagogiques/delete/<%= Category %>/<%= news.id %>">Supprimer</a></button>
           <button class="rounded-circle" onclick="UpdateNews('<%= news.id %>')">Modifier</button></div>
         <% } %>
         <div id="News<%= news.id %>">
@@ -30,7 +36,7 @@
             <h4> Description : <%= news.content%></h3>
         </div>
         <div id="UpdateNews<%=news.id%>" style="display: none;">
-          <form class="form-group" action="/news/update/<%= news.id %>" method="post" >
+          <form class="form-group" action="/outils_pedagogiques/update/<%= Category %>/<%= news.id %>" method="post" >
             <div class="row mt-2 text-center">
               <label class="col-12 pt-1 pr-0" for="POST-name"><h2>Titre</h2></label>
               <input value="<%= news.title %> " class="form-control offset-3 col-6" id="POST-name" type="text" name="name">
@@ -48,4 +54,6 @@
     <% } %> 
   </div>
 </div>
+
+
 <%- include('footer') -%>

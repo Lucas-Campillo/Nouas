@@ -6,6 +6,8 @@ let session = require('express-session')
 let news = require('./models/news.js')
 let users = require('./models/users.js')
 let categories = require('./models/categories.js')
+let jdb = require('./models/jdb.js')
+let event_data = {"events": [] }
 // EJS
 app.set('view engine','ejs')
 
@@ -13,7 +15,6 @@ app.set('view engine','ejs')
 app.use(bodyParser.urlencoded({ extended:false}))
 app.use(bodyParser.json())
 app.use(express.static('public'))
-
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret: 'aerrageargrf',
@@ -22,92 +23,8 @@ app.use(session({
   cookie: { secure: false }
 }))
 // Routes
-    app.get('/', (request, response) =>{
-        categories.read(function(categories){
-            console.log(categories)
-            response.render('index', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
-        })
-    }) 
-    
-    app.post('/', (request, response) =>{
-        response.render('index', {test : 'Salut' , Nom : request.body.name })
-    })
-    
-    app.get('/news', (request,response) =>
-    {
-        console.log(request.session.username)
-        console.log(request.session.admin)
-        news.all(function(news){
-        response.render('news', {News : news, Admin : request.session.admin})
-    })
-    })
-    app.get('/outils_pedagogique/:Category', (request,response) =>
-    {
-        categories.read(function(categoriess){
-            news.readArticles(request.params.Category,function(articles)
-            {
-                response.render('news', {Category : request.params.Category, Name : request.session.username , Admin : request.session.admin , Categories : categoriess, News:articles} )
-            })
-        })
-    })
-    
-    app.post('/outils_pedagogique/:Category', (request,response) =>
-    {
-        news.create([request.body.name,request.body.content,new Date(),request.params.Category])
-        response.redirect('/outils_pedagogique/'+request.params.Category)
-    })
 
-    app.post('/news/create' , (request, response) =>
-    {
-        news.create([request.body.name,request.body.content,new Date()])
-        response.redirect('/news')
-    })
-    
-    app.get('/news/delete/:Id' , (request , response ) =>{
-        news.delete(request.params.Id)
-        response.redirect('/news')
-    })
-    
-    app.post('/news/update/:Id', (request , response ) =>{
-        news.update([request.body.name,request.body.content,new Date()],request.params.Id)
-        response.redirect('/news')
-    })
-
-    app.get('/login', (request, response) =>{
-        categories.read(function(categories){
-            console.log(categories)
-            response.render('login', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
-        })
-    })
-    app.post('/login' , (request,response)=>
-    {
-        users.verify(request.body.username,request.body.password, function(user){
-            request.session.username = user[0].username
-            request.session.admin = user[0].admin
-            response.redirect('/')
-        },function(err){ response.render('login', { Erreur : err})})
-    })
-
-    app.get('/signin', (request, response) =>{
-        categories.read(function(categories){
-            console.log(categories)
-            response.render('signin', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
-        })
-    })
-    app.post('/signin' , (request,response)=>
-    {
-        users.create([request.body.username,request.body.password])
-        users.verify(request.body.username,request.body.password, function(user){
-            request.session.username = user[0].username
-            request.session.admin = user[0].admin
-            response.redirect('/')
-        },function(err){ response.render('login', { Erreur : err})})
-    })
-    app.get('/logout' , (request,response)=>
-    {
-        request.session.destroy();
-        response.redirect('/login')
-    })
+  // Header
     app.post('/categories/create', (request,response)=>
     {
         const regex = (/ /gi);
@@ -115,8 +32,110 @@ app.use(session({
         const regex3 = (/à|â|ä|À|Â|Ä/gi);
         let formate = request.body.category.toLowerCase().replace(regex,'_').replace(regex2,'e').replace(regex3,'a')
         categories.create([request.body.category.toUpperCase(),formate])
-      response.redirect('/')
+        response.redirect('/')
     })
+
+    app.get('/categories/delete/:Category', (request,response)=>
+    {
+        categories.delete([request.params.Category])
+        response.redirect('/')
+    })
+
+  // Index
+    app.get('/', (request, response) =>{
+        categories.readAll(function(categories){
+            jdb.readJdbUser(request.session.Id, function(Jdbs)
+            { 
+                for(Jdb of Jdbs){
+                        let event =
+                        {   "occasion": Jdb.content,
+                            "category": Jdb.category,
+                            "year": Number(Jdb.date.format("Y")),
+                            "month": Number(Jdb.date.format("M")),
+                            "day": Number(Jdb.date.format("D"))}
+
+                        event_data["events"].push(event);
+                 }
+                response.render('index', { eventJdb : event_data,Name : request.session.username , Admin : request.session.admin , Categories : categories} )
+                event_data = {"events": [] }
+            })
+
+        })
+    }) 
+    app.post('/', (request, response) =>{
+        jdb.create([request.session.Id,request.body.category,request.body.content, new Date(request.body.DateJdb)])
+        response.redirect('/')  
+    })
+  // Outils pédagogiques
+    app.get('/outils_pedagogiques/:Category', (request,response) =>
+    {
+        categories.readAll(function(Allcategories){
+            news.readArticles(request.params.Category,function(articles)
+            {
+                categories.read(request.params.Category,function(ActualCategory){
+                    response.render('news', {ActualCategory:ActualCategory[0].name,Category : request.params.Category, Name : request.session.username , Admin : request.session.admin , Categories : Allcategories, News:articles} )
+                })
+                
+            })
+        })
+    })
+    
+    app.post('/outils_pedagogiques/create/:Category', (request,response) =>
+    {
+        news.create([request.body.name,request.body.content,new Date(),request.params.Category])
+        response.redirect('/outils_pedagogiques/'+request.params.Category)
+    })
+
+    app.get('/outils_pedagogiques/delete/:Category/:Id', (request,response) =>
+    {
+        news.delete(request.params.Id)
+        response.redirect('/outils_pedagogiques/'+request.params.Category)
+    })
+
+    app.post('/outils_pedagogiques/update/:Category/:Id', (request,response) =>
+    {
+        console.log(request.params.Category)
+        news.update([request.body.name,request.body.content,new Date(),request.params.Category],request.params.Id)
+        response.redirect('/outils_pedagogiques/'+request.params.Category)
+    })
+  // LogIn SignIn LogOut
+    app.get('/login', (request, response) =>{
+        categories.readAll(function(categories){
+            response.render('login', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
+        })
+    })
+
+    app.post('/login' , (request,response)=>
+    {
+        users.verify(request.body.username,request.body.password, function(user){
+            request.session.username = user[0].username
+            request.session.Id = user[0].id
+            request.session.admin = user[0].admin
+            response.redirect('/')
+        },function(err){ response.render('login', { Erreur : err})})
+    })
+
+    app.get('/signin', (request, response) =>{
+        categories.readAll(function(categories){
+            response.render('signin', { Name : request.session.username , Admin : request.session.admin , Categories : categories} )
+        })
+    })
+    
+    app.post('/signin' , (request,response)=>
+    {
+        users.create([request.body.username,request.body.password])
+        users.verify(request.body.username,request.body.password, function(user){
+            request.session.username = user[0].username
+            request.session.admin = user[0].admin
+            response.redirect('/')
+        },function(err){ response.render('signin', { Erreur : err})})
+    })
+    app.get('/logout' , (request,response)=>
+    {
+        request.session.destroy();
+        response.redirect('/login')
+    })
+  
 
 
 app.listen(8080)

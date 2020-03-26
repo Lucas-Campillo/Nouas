@@ -19,6 +19,10 @@ class News{
     {
         return this.row.content
     }
+    get category()
+    {
+        return this.row.category
+    }
     get created_at()
     {
         return moment(this.row.created_at)
@@ -59,8 +63,8 @@ class News{
     }
     static update(data,id)
     {
-        let sql = "UPDATE articles SET title=?, content=?, updated_at=?, category=? WHERE id = ?"
-        DB.query(sql,[data[0],data[1],data[2],data[3],id] , function(err, result) {
+        let sql = "UPDATE articles SET title=?, content=?, updated_at=? WHERE id = ?"
+        DB.query(sql,[data[0],data[1],data[2],id] , function(err, result) {
             if (err) throw err
             console.log("Update done")})
     }

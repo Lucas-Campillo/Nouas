@@ -1,5 +1,6 @@
 // Setup the calendar with the current date
 $(document).ready(function(){
+    
     var date = new Date();
     var today = date.getDate();
     // Set click handlers for DOM elements
@@ -7,6 +8,7 @@ $(document).ready(function(){
     $(".left-button").click({date: date}, prev_year);
     $(".month").click({date: date}, month_click);
     $("#add-button").click({date: date}, new_event);
+    $("#JdbUpdate").click( {date:date},event_update)
     // Set current month as active
     $(".months-row").children().eq(date.getMonth()).addClass("active-month");
     init_calendar(date);
@@ -153,10 +155,57 @@ function new_event(event) {
     });
 }
 
+function event_update(event)
+{
+    var date = event.data.date;
+    var name = $("#name").val().trim();
+    var day = parseInt($(".active-date").html());
+    date.setDate(day)
+    console.log(date)
+    console.log(name)
+    console.log(day)
+    // if a date isn't selected then do nothing
+    if($(".active-date").length===0)
+        return;
+    // remove red error input on click
+    $("input").click(function(){
+        $(this).removeClass("error-input");
+    })
+    // empty inputs and hide events
+    $("#dialog input[type=text]").val('');
+    $("#dialog input[type=number]").val('');
+    $(".events-container").hide(250);
+    $("#FormUpdateJdb").show(250);
+    // Event handler for cancel button
+    $("#cancel-button").click(function() {
+        $("#name").removeClass("error-input");
+        $("#count").removeClass("error-input");
+        $("#dialog").hide(250);
+        $(".events-container").show(250);
+    });
+    // Event handler for ok button
+    $("#ok-button").unbind().click({date: event.data.date}, function() {
+        var date = event.data.date;
+        var name = $("#name").val().trim();
+        var day = parseInt($(".active-date").html());
+        // Basic form validation
+        if(name.length === 0) {
+            $("#name").addClass("error-input");
+        }
+        else {
+            $("#dialog").hide(250);
+            console.log("new event");
+            new_event_json(name, date, day);
+            date.setDate(day);
+            document.getElementById("DateJdb").value = date;
+            init_calendar(date);
+        }
+    });
+}
 // Adds a json event to event_data
 function new_event_json(name, date, day) {
     let event = {
-        "occasion": name,
+        "content": name,
         "year": date.getFullYear(),
         "month": date.getMonth()+1,
         "day": day
@@ -164,12 +213,12 @@ function new_event_json(name, date, day) {
     event_data["events"].push(event);
 }
 
+
 // Display all events of the selected date in card views
 function show_events(events, month, day) {
     // Clear the dates container
     $(".events-container").empty();
     $(".events-container").show(250);
-    console.log(event_data["events"]);
     // If there are no events for this date, notify the user
     if(events.length===0) {
         var event_card = $("<div class='event-card'></div>");
@@ -181,16 +230,17 @@ function show_events(events, month, day) {
     else {
         // Go through and add each event as a card to the events container
         for(let i=0; i<events.length; i++) {
+            let event_modify = $("<div><button id='JdbUpdate'>Modifier</button></div>")
             let event_card = $("<div class='event-card'></div>");
             let event_category = $("<div class='event-category'>"+events[i]["category"]+"</div>");
-            let event_name = $("<div class='event-name'>"+events[i]["occasion"]+":</div>");
+            let event_name = $("<div class='event-name'>"+events[i]["content"]+":</div>");
             if(events[i]["cancelled"]===true) {
                 $(event_card).css({
                     "border-left": "10px solid #FF1744"
                 });
                 event_count = $("<div class='event-cancelled'>Cancelled</div>");
             }
-            $(event_card).append(event_category).append(event_name);
+            $(event_card).append(event_modify).append(event_category).append(event_name);
             $(".events-container").append(event_card);
         }
     }

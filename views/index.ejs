@@ -1,11 +1,13 @@
-<%- include('header') -%>
+<%- include('header')  %> 
+<h1>Bonjour <%= name %></h1>
+
 <script>
     let event_data = <%- JSON.stringify(eventJdb) %>
 </script>
     <div class="text-center"><h1>BONJOUR 
-        <% if (typeof Name !== 'undefined') {%>
-            <%= Name %>
-        <% } console.log(Name)%></h1></div> 
+        <% if (typeof name !== 'undefined') {%>
+            <%= name %>
+        <% } console.log(name)%></h1></div> 
       <div class="content">
         <div class="calendar-container">
           <div class="calendar"> 
@@ -62,7 +64,7 @@
                 <label class="form-label" id="valueFromMyButton" for="name">Catégories</label>
                 <select class="input custom-select" type="text" id="name" name="category" >
                     <% for(category of Categories){ %>
-                    <option value="<%= category.link_name %>"><%= category.name %></option>
+                    <option value="<%= category.name %>"><%= category.name %></option>
                     <% } %> 
                 </select>
                 <label class="form-label" id="valueFromMyButton" for="count">Description</label>
@@ -70,7 +72,7 @@
                 <textarea name="content" class="form-control" style="width: 100%;" rows="4" cols="50">
 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos eveniet doloremque mollitia dolorem nobis velit illo repudiandae autem! Consequuntur fugit aspernatur quisquam facilis delectus quis dolores ab magni officia facere?
                 </textarea>
-                <input type="hidden" id="DateJdb" name="DateJdb" value="b">
+                <input type="hidden" id="DateJdb" name="DateJdb" value="date">
 
                 <input type="button" value="Cancel" class="button" id="cancel-button">
                 <input type="submit" value="Enregistrer" class="button" id="ok-button">
@@ -78,5 +80,4 @@ Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos eveniet doloremque
             </form>
           </div>
       </div>
-
-<%- include('footer') -%>
+      <div><button id='JdbUpdate'>Modifier</button></div>

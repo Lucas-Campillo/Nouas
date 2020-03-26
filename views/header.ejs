@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Nodejs</title>
-    <link rel="stylesheet" href="http://localhost:8080/bootstrap-4.0.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://localhost:8080/css/style.css">
-    <link rel="stylesheet" href="http://localhost:8080/css/calendar.css">
+    <link rel="stylesheet" href="http://localhost:3000/bootstrap-4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost:3000/css/style.css">
+    <link rel="stylesheet" href="http://localhost:3000/css/calendar.css">
     <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/script.js"></script>
-    <script type="text/javascript" src="http://localhost:8080/js/calendar.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/js/script.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/js/calendar.js"></script>
+    
 
 </head>
 <body>
@@ -59,12 +60,12 @@ function myFunction(CategoryName, CategoryNameLink) {
                 <li class="active col-3 p-0"><a class="col-12 " href="#contact">Contact</a></li>
                 <% if (typeof Admin !== 'undefined') {%>
                     <li style="background-color: #343a40!important"class="col-3 text-center p-0">
-                        <a class="col-12" href="/logout">Déconnexion</a>
+                        <a class="col-12" href="/logout?_method=DELETE">Déconnexion</a>
                     </li>
                 <% }else{ %>
                     <li style="background-color: #343a40!important"class="col-3 p-0">
                         <a class="col-6" href="/logIn">Connexion</a>
-                        <a class="col-6" href="/signIn">Inscription</a>
+                        <a class="col-6" href="/register">Inscription</a>
                     </li>
                 <% } %> 
             </ul>

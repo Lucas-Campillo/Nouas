@@ -14,6 +14,10 @@ class Users{
     {
         return this.row.username
     }
+    get email()
+    {
+        return this.row.email
+    }
     get password()
     {
         return this.row.password
@@ -22,10 +26,27 @@ class Users{
     {
         return this.row.admin
     }
-
+    static read(data, cb)
+    {
+        let sql = "SELECT * FROM users where email = ?"
+        DB.query(sql,[data],function (err, result) 
+        {
+            if (err) throw err
+            cb(result.map((row) => new Users(row)))// Renvoie OK
+        })
+    }
+    static readId(data, cb)
+    {
+        let sql = "SELECT * FROM users where id = ?"
+        DB.query(sql,[data],function (err, result) 
+        {
+            if (err) throw err
+            cb(result.map((row) => new Users(row)))// Renvoie OK
+        })
+    }
     static create(data)
     {
-        let sql = "INSERT INTO users (username,password) VALUES (?)"
+        let sql = "INSERT INTO users (username,email,password) VALUES (?)"
         DB.query(sql,[data], function (err, result) {
             if (err) throw err
             console.log("Insert done")
@@ -35,6 +56,8 @@ class Users{
 
     static verify(user, pass, cb , error)
     {
+        console.log(user)
+        console.log(pass)
         let sql = "SELECT * FROM users WHERE username = ? AND password = ?"
         DB.query(sql,[user,pass],function (err, result) {
             if (err) throw err

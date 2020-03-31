@@ -69,7 +69,10 @@ function init_calendar(date) {
 // Get the number of days in a given month/year
 function days_in_month(month, year) {
     var monthStart = new Date(year, month, 1);
-    var monthEnd = new Date(year, month + 1, 1);
+    if(month===2)
+    { var monthEnd = new Date(year, month + 1, 2);}
+    else
+    {var monthEnd = new Date(year, month + 1, 1);}
     return (monthEnd - monthStart) / (1000 * 60 * 60 * 24);    
 }
 

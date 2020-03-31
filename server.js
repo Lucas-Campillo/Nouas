@@ -36,7 +36,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
-
+console.log(new Date().getMonth())
 // Routes
 
   // Header

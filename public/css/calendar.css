@@ -176,7 +176,8 @@ body {
 }
 
 /* Days/months tables */
-.days-table, .dates-table, .months-table { 
+.days-table, .dates-table, .months-table {
+    width: 100%;
     border-collapse:separate; 
     text-align: center;
 } 

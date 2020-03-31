@@ -1,0 +1,234 @@
+/*MISE EN PLACE DOUBLE COLONNE*/
+
+@media screen and (min-width: 800px) {
+	center .row{
+		width: 52%;
+	}
+
+	center, #ajax_call{
+		display: flex;
+		flex-flow: row wrap;
+	    justify-content: space-between;
+	}
+
+	#ajax_call{
+		width: 80%;
+		margin: auto;
+	}
+
+	#ajax_call .row {
+	    width: 50%;
+	}
+
+	#ajax_call .col-lg-offset-2 {
+	    margin-left: 0%
+	}
+
+	#ajax_call .col-lg-8 {
+	    width: 100%;
+	}
+
+	#ajax_call .startDate{
+		float: left;
+	}
+
+	#ajax_call .link_container{
+		width: 250px;
+		margin-left: 0%;
+	}
+
+}
+
+@media screen and (min-width: 1200px) {
+	center .col-lg-8{
+    	width: 92%;
+    	margin-left: 2%;
+	}
+
+}
+
+/*FIN MISE EN PLACE DOUBLE COLONNE*/
+
+/*FOND*/
+body{
+	background-image:url('../images/fond-actu.jpg')!important;
+	background-repeat: no-repeat;
+	background-attachment: fixed !important;
+}
+/*FIN FOND*/
+
+/*MENU*/
+ul#nav{
+	background-color: #333 !important;
+	margin-bottom: 0;
+	-moz-box-shadow: 0px 0px 15px 0px #656565;
+	-webkit-box-shadow: 0px 0px 15px 0px #656565;
+	-o-box-shadow: 0px 0px 15px 0px #656565;
+	box-shadow: 0px 0px 15px 0px #656565;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=15);
+}
+ul#nav li a{
+	color: #eee !important;
+	text-transform: uppercase;
+}
+.separate{
+	display: none;
+}
+
+ul#nav li:hover{
+	background-color: #222 !important;
+} 
+
+ul.sub_menu{
+	background-color: #222 !important;
+}
+
+ul.sub_menu li a:hover{
+	background-color: #111 !important;
+}
+/*FIN MENU*/
+
+/*POLICES*/
+ul+h2{
+	font-size: 2.5em !important;
+	font-family: 'Dosis', sans-serif;
+}
+a.linked_box{
+	width: 245px;
+    height: 250px;
+	font-size: 1.6em;
+	color: #484040;
+	margin-top: 15px;
+	-moz-box-shadow: 0px 0px 15px 0px #cfcfcf;
+	-webkit-box-shadow: 0px 0px 15px 0px #cfcfcf;
+	-o-box-shadow: 0px 0px 15px 0px #cfcfcf;
+	box-shadow: 0px 0px 15px 0px #cfcfcf;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=NaN, Strength=15);
+	transition: all .2s ease-in-out;
+	text-decoration: none;
+}
+
+a.linked_box:hover{
+	transform: scale(1.05); 
+	text-decoration: none;
+}
+i.start{
+	color: white;
+	text-decoration: none;
+}
+i.end{
+	color: white;
+	text-decoration: none;
+}
+/*FIN POLICES*/
+
+/*BOX*/
+.box{
+	background-color: rgba(255,255,255,1);
+	width: 80%;
+	margin: auto;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	padding-bottom: 20px;
+	z-index: 19;
+	-moz-box-shadow: 0px 0px 15px 0px #f3f3f3;
+	-webkit-box-shadow: 0px 0px 15px 0px #f3f3f3;
+	-o-box-shadow: 0px 0px 15px 0px #f3f3f3;
+	box-shadow: 0px 0px 15px 0px #f3f3f3;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#f3f3f3, Direction=NaN, Strength=15);
+    color : red;
+}
+.blackBox{
+	/*background-color: rgba(0,0,0,0.8);*/
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 20;
+}
+.box .navigation-box{
+	margin-top: 25px;
+	font-size: 1.2em;
+	cursor: pointer !important;
+}
+.box .structure-box{
+	display: flex;
+}
+.box .details-box{
+	padding-top: 35px;
+	width: 30%;
+}
+.box .contenu-box{
+	width: 70%;
+	padding: 0px 5px 0px 35px;
+}
+.box .contenu-box h2{
+	font-size: 3em !important;
+	font-family: 'Dosis', sans-serif;
+	text-align: left;
+	color:black;
+}
+.box .contenu-box p{
+	text-align: justify;
+	font-size: 1.1em;
+	color:black;
+}
+.box .contenu-box a{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	float: right;
+	color:black;
+}
+.box .nav-pills+.nav-pills{
+	margin-top: 5px;
+	color:black;
+
+}
+/* Interieur du pop-up délcenché sur actualites urgentes */ 
+.box .nav-pills > li{
+	min-width: 100px;
+	color:black;
+	pointer-events: none;
+	cursor: default;
+}
+.box .nav-pills > li.text-date{
+	width: 190px;
+	color:black;
+	pointer-events: none;
+	cursor: default;
+	 font-weight: bold;
+}
+ .box .nav-pills > li.start  > a {
+	color:black;
+	text-decoration: none;
+	pointer-events: none;
+	cursor: default;
+	 font-weight: bold;
+}
+.box .nav-pills > li.text-date  > a {
+	color:black;
+	text-decoration: none;
+	pointer-events: none;
+	cursor: default;
+	 font-weight: bold;
+}
+.box .nav-pills > li.end  > a {
+	color:black;
+	text-decoration: none;
+	pointer-events: none;
+	cursor: default;
+	 font-weight: bold;
+}
+.box .nav-pills > li.box-action > a{
+	color:black;
+	text-decoration: none;
+	pointer-events: none;
+	cursor: default;
+	 font-weight: bold;
+} 
+
+li.active{
+	margin-left: 0 !important;
+}
+/*END BOX*/

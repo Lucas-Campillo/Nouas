@@ -1,17 +1,21 @@
 <%- include('header') %> 
-<h1>Login</h1>
+<h1 class="text-center mb-3">Login</h1>
 <% if (messages.error) { %>
   <%= messages.error %>
 <% } %>
 <form class="form-group" action="/login" method="POST">
   <div class="row mt-4">
-    <label class="offset-3 col-1 pt-1" for="email">Email</label>
-    <input class="form-control col-5" type="email" id="email" name="email" required>
-    <label class="offset-3 col-1 pt-1" for="POST-password">Password :</label>
-    <input class="form-control col-5" id="POST-password" type="password" name="password">
+    <div class="offset-3 col-12">
+      <label class="col-6 text-center" for="email">Email</label>
+      <input class="form-control col-6" type="email" id="email" name="email" required>
+      <label class="col-6 text-center" for="POST-password">Password :</label>
+      <input class="form-control col-6" id="POST-password" type="password" name="password">
+    </div>
+    
   </div>
   <div class="text-center mt-1">
     <input class="btn btn-primary" type="submit" value="Se Connecter">
   </div>
 </form>
 <a href="/register">Register</a>
+<%- include('footer') %> 

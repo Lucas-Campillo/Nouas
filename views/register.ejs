@@ -1,5 +1,5 @@
 <%- include('header') %> 
-<h1>Register</h1>
+<h1 class="text-center mb-3">Register</h1>
 <% if (messages.error) { %>
   <%= messages.error %>
 <% } %>
@@ -9,7 +9,7 @@
     <input class="form-control col-5" id="POST-name" type="text" name="name">
     <label class="offset-3 col-1 pt-1" for="email">Email</label>
     <input class="form-control col-5" type="email" id="email" name="email" required>
-    <label class="offset-3 col-1 pt-1" for="POST-password">Password :</label>
+    <label class="offset-3 col-1 pt-1" for="POST-password">Password</label>
     <input class="form-control col-5" id="POST-password" type="password" name="password">
 </div>
   <div class="text-center mt-1">

@@ -23,7 +23,7 @@
 <div class="container">
   <div class="text-center row">
     <% for(news of News){ %>
-      <div style="height: 22vw;" class="border rounded-circle mt-2 col-6">
+      <div style="height: 22vw;" class="border rounded-circle mt-2 col-6 bg-white">
         <% if (Admin === 1) {%>
           <div class="mt-1"><button class="rounded-circle"><a href="/outils_pedagogiques/delete/<%= Category %>/<%= news.id %>">Supprimer</a></button>
           <button class="rounded-circle" onclick="UpdateNews('<%= news.id %>')">Modifier</button></div>

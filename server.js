@@ -36,7 +36,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
-console.log(new Date().getMonth())
 // Routes
 
   // Header
@@ -86,6 +85,14 @@ app.post('/', (req, res) =>{
   jdb.create([req.user.id,req.body.category,req.body.content, new Date(req.body.DateJdb)])
   res.redirect('/')  
 })
+app.post('/jdb/update', (req, res) =>{
+  jdb.update([req.body.category,req.body.content,req.body.Idjdb])
+  res.redirect('/')  
+})
+app.get('/jdb/delete/:Id', (req, res) =>{
+  jdb.delete(req.params.Id)
+  res.redirect('/')  
+})
 
 // Outils pédagogiques
 app.get('/outils_pedagogiques/:Category',checkAuthenticated, (request,response) =>
@@ -115,7 +122,6 @@ app.get('/outils_pedagogiques/delete/:Category/:Id', (request,response) =>
 
 app.post('/outils_pedagogiques/update/:Category/:Id', (request,response) =>
 {
-    console.log(request.params.Category)
     news.update([request.body.name,request.body.content,new Date(),request.params.Category],request.params.Id)
     response.redirect('/outils_pedagogiques/'+request.params.Category)
 })

@@ -5,7 +5,7 @@
     <div class="text-center"><h1>BONJOUR 
         <% if (typeof name !== 'undefined') {%>
             <%= name %>
-        <% } console.log(name)%></h1></div> 
+        <% } %></h1></div> 
       <div class="content">
         <div class="calendar-container">
           <div class="calendar"> 
@@ -78,4 +78,33 @@ Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos eveniet doloremque
             </form>
           </div>
       </div>
-      <div><button id='JdbUpdate'>Modifier</button></div>
+
+
+      <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modification journal de bord</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/jdb/update" method="POST">
+                <div class="form-group">
+                  <label class="form-label" id="valueFromMyButton" for="name">Catégories</label>
+                <select class="input custom-select" type="text" id="name" name="category" >
+                    <% for(category of Categories){ %>
+                    <option value="<%= category.name %>"><%= category.name %></option>
+                    <% } %> 
+                </select>
+                <input type="hidden" id="Idjdb" name="Idjdb" value="id">
+                <label class="form-label" id="valueFromMyButton" for="count">Description</label>
+                <textarea id="update_content" name="content" class="form-control" style="width: 100%;" rows="4" cols="50"></textarea>
+                </div>
+                <div class="text-center mt-1">
+        <input class="btn btn-primary" type="submit" value="Enregistrer">
+      </div>
+            </form>
+          </div>
+        </div>
+      </div>

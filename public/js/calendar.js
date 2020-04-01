@@ -14,6 +14,7 @@ $(document).ready(function(){
     init_calendar(date);
     var events = check_events(today, date.getMonth()+1, date.getFullYear());
     show_events(events, months[date.getMonth()], today);
+    console.log(event_data)
 });
 
 // Initialize the calendar by appending the HTML dates
@@ -164,9 +165,6 @@ function event_update(event)
     var name = $("#name").val().trim();
     var day = parseInt($(".active-date").html());
     date.setDate(day)
-    console.log(date)
-    console.log(name)
-    console.log(day)
     // if a date isn't selected then do nothing
     if($(".active-date").length===0)
         return;
@@ -233,22 +231,21 @@ function show_events(events, month, day) {
     else {
         // Go through and add each event as a card to the events container
         for(let i=0; i<events.length; i++) {
-            let event_modify = $("<div><button id='JdbUpdate'>Modifier</button></div>")
-            let event_card = $("<div class='event-card'></div>");
-            let event_category = $("<div class='event-category'>"+events[i]["category"]+"</div>");
-            let event_name = $("<div class='event-name'>"+events[i]["content"]+":</div>");
-            if(events[i]["cancelled"]===true) {
-                $(event_card).css({
-                    "border-left": "10px solid #FF1744"
-                });
-                event_count = $("<div class='event-cancelled'>Cancelled</div>");
-            }
-            $(event_card).append(event_modify).append(event_category).append(event_name);
-            $(".events-container").append(event_card);
+            let event_delete = $("<button class='btn btn-danger col-12 p-0 m-0'><a class='text-white' href='/jdb/delete/"+events[i]['id']+"'>Supprimer le journal de bord</a></button>")
+            let event_modify = $("<button onclick='update_jdb("+events[i]['id']+") 'type='button' class='btn btn-primary col-12 p-0 m-0' data-toggle='modal' data-target='#exampleModal2'>Modifier journal de bord</button>")
+            let event_card = $("<div id='"+events[i]["id"]+"' class='event-card'></div>");
+            let event_category = $("<div id='category"+events[i]["id"]+"' class='event-category'>"+events[i]["category"]+"</div>");
+            let event_name = $("<div id='content"+events[i]["id"]+"' class='event-name'>"+events[i]["content"]+"</div></div>");
+            $(event_card).append(event_delete).append(event_modify).append(event_category).append(event_name);
+            $(".events-container").append(event_card); 
         }
     }
 }
-
+function update_jdb(id)
+{
+    document.getElementById('update_content').innerHTML = document.getElementById('content'+id).innerHTML
+    document.getElementById('Idjdb').value = id
+}
 // Checks if a specific date has any events
 function check_events(day, month, year) {
     var events = [];

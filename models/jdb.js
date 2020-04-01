@@ -47,6 +47,20 @@ class Jdb{
             
           })
     }
+    static update(data)
+    {
+        let sql = "UPDATE jdb SET category=?, content=? WHERE id = ?"
+        DB.query(sql,[data[0],data[1],data[2]] , function(err, result) {
+            if (err) throw err
+            console.log("Update done")})
+    }
+    static delete(id)
+    {
+        let sql = "DELETE FROM jdb WHERE id = ?"
+        DB.query(sql,id , function(err, result) {
+            if (err) throw err
+            console.log("Delete done")})
+    }
     
 }
 
